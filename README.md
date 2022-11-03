@@ -1,10 +1,9 @@
-# REAL-TIME TARGET SOUND EXTRACTION  [![Gradio demo](https://img.shields.io/badge/Web-page-blue)](https://targetsound.cs.washington.edu/) [![Gradio demo](https://img.shields.io/badge/Gradio-demo-blue)](https://huggingface.co/spaces/uwx/waveformer) 
+# REAL-TIME TARGET SOUND EXTRACTION
 
-This repository provides code for the Waveformer architecture proposed in the paper. Waveformer is a low-latency architecture implementing streaming target sound extraction. To acheive streaming inference, the model operates on a ~10 ms audio chunk at each step, while looking at only past chunks and no future chunks.
+This repository provides code for the Waveformer architecture proposed in the paper. Waveformer is a low-latency architecture implementing streaming target sound extraction. To acheive low-latency streaming inference, the model operates on a ~10 ms audio chunk at each time step, while looking at only past chunks and no future chunks. On a Core i5 CPU using a single thread, real-time factors (RTFs) of different model configurations range from 0.66 to 0.94, with an end-to-end latency less than 20 ms. 
 
-<p align="center">
-<video src='https://targetsound.cs.washington.edu/files/video_demo.mp4'></video>
-</p>
+[![Gradio demo](https://img.shields.io/badge/Gradio-app-blue)](https://huggingface.co/spaces/uwx/waveformer)
+<video src="https://user-images.githubusercontent.com/16723254/199796287-e6aa464d-7da4-4941-b356-0668d96d9184.mp4"></video>
 
 ## Setup
 

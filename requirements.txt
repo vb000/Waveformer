@@ -1,0 +1,18 @@
+### Requirements
+librosa
+torch
+torchaudio
+soundfile
+scipy
+matplotlib
+tqdm
+numpy
+pandas
+speechbrain
+tensorflow
+tensorflow-probability
+torchmetrics
+seaborn
+ipykernel
+scaper
+wget

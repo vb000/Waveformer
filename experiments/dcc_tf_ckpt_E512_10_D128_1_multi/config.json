@@ -1,0 +1,60 @@
+{
+    "model": "src.training.dcc_tf",
+    "model_params":
+    {
+        "label_len": 41,
+        "L": 32,
+        "enc_dim": 512,
+        "num_enc_layers": 10,
+        "dec_dim": 128,
+        "num_dec_layers": 1,
+        "dec_buf_len": 13,
+        "dec_chunk_size": 13,
+        "out_buf_len": 4,
+        "use_pos_enc": "true"
+    },
+    "train_data":
+    {
+        "input_dir": "data/FSDSoundScapes",
+        "dset": "train",
+        "sr": 44100,
+        "resample_rate": null,
+        "max_num_targets": 3
+    },
+    "val_data":
+    {
+        "input_dir": "data/FSDSoundScapes",
+        "dset": "val",
+        "sr": 44100,
+        "resample_rate": null,
+        "max_num_targets": 3
+    },
+    "test_data":
+    {
+        "input_dir": "data/FSDSoundScapes",
+        "dset": "test",
+        "sr": 44100,
+        "resample_rate": null,
+        "max_num_targets": 3
+    },
+    "optim":
+    {
+        "lr": 2.5e-4,
+        "weight_decay": 0.0
+    },
+    "lr_sched":
+    {
+        "mode": "max",
+        "factor": 0.1,
+        "patience": 5,
+        "min_lr": 5e-6,
+        "threshold": 0.1,
+        "threshold_mode": "abs"
+    },
+    "base_metric": "scale_invariant_signal_noise_ratio",
+    "fix_lr_epochs": 50,
+    "epochs": 150,
+    "batch_size": 16,
+    "eval_batch_size": 64,
+    "n_workers": 16
+}

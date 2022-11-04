@@ -1,6 +1,6 @@
 # REAL-TIME TARGET SOUND EXTRACTION
 
-This repository provides code for the Waveformer architecture proposed in the paper. Waveformer is a low-latency architecture implementing streaming target sound extraction. To acheive low-latency streaming inference, the model operates on a ~10 ms audio chunk at each time step, while looking at only past chunks and no future chunks. On a Core i5 CPU using a single thread, real-time factors (RTFs) of different model configurations range from 0.66 to 0.94, with an end-to-end latency less than 20 ms. 
+This repository provides code for the Waveformer architecture proposed in the paper. Waveformer is a low-latency target sound extraction model implementing streaming inference -- the model process a ~10 ms input audio chunk at each time step, while only looking at past chunks and no future chunks. On a Core i5 CPU using a single thread, real-time factors (RTFs) of different model configurations range from 0.66 to 0.94, with an end-to-end latency less than 20 ms. 
 
 [![Gradio demo](https://img.shields.io/badge/Gradio-app-blue)](https://huggingface.co/spaces/uwx/waveformer)
 <video src="https://user-images.githubusercontent.com/16723254/199796287-e6aa464d-7da4-4941-b356-0668d96d9184.mp4"></video>
@@ -33,7 +33,7 @@ List of all possible targets can be found using:
 
 ### Dataset
 
-We use [Scaper](https://github.com/justinsalamon/scaper) toolkit to synthetically generate audio mixtures. Each audio mixture sample is generated on-the-fly during training or evaluation, using Scaper's `generate_from_jams` function on a `.jams` specification file. We provide the `.jams` specification files for all training, validation and evaluation samples (in the step 3 below). The `.jams` specifications are generated using [FSDKaggle2018](https://zenodo.org/record/2552860) and [TAU Urban Acoustic Scenes 2019](https://dcase.community/challenge2019/task-acoustic-scene-classification) datasets as sources for foreground and background sounds, respectively. Steps to create the dataset:
+We use [Scaper](https://github.com/justinsalamon/scaper) toolkit to synthetically generate audio mixtures. Each audio mixture is generated on-the-fly, during training or evaluation, using Scaper's `generate_from_jams` function on a [`.jams`](https://jams.readthedocs.io/en/stable/) specification file. We provide (in the step 3 below) `.jams` specification files for all training, validation and evaluation samples used in our experiments. The `.jams` specifications are generated using [FSDKaggle2018](https://zenodo.org/record/2552860) and [TAU Urban Acoustic Scenes 2019](https://dcase.community/challenge2019/task-acoustic-scene-classification) datasets as sources for foreground and background sounds, respectively. Steps to create the dataset:
 
 1. Go to the `data` directory:
 

@@ -8,7 +8,8 @@ import torchaudio
 import wget
 from lightning.app.components.serve import ServeGradio
 
-from Waveformer import TARGETS, Waveformer
+from Waveformer import TARGETS
+from Waveformer import Waveformer as WaveformerModel
 
 
 class ModelDemo(ServeGradio):
@@ -21,7 +22,7 @@ class ModelDemo(ServeGradio):
     enable_queue: bool = False
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(cloud_compute=L.CloudCompute("cpu-medium"), **kwargs)
 
     def build_model(self):
         import torch
@@ -41,7 +42,7 @@ class ModelDemo(ServeGradio):
         # Instantiate model
         with open("default_config.json") as f:
             params = json.load(f)
-        model = Waveformer(**params["model_params"])
+        model = WaveformerModel(**params["model_params"])
         model.load_state_dict(
             torch.load("default_ckpt.pt", map_location=torch.device("cpu"))[
                 "model_state_dict"
@@ -50,6 +51,7 @@ class ModelDemo(ServeGradio):
         model.eval()
         return model
 
+    @torch.inference_mode()
     def predict(self, audio, label_choices):
         # Read input audio
         fs, mixture = audio

@@ -3,6 +3,7 @@
 This repository provides code for the Waveformer architecture proposed in the paper. Waveformer is a low-latency target sound extraction model implementing streaming inference -- the model process a ~10 ms input audio chunk at each time step, while only looking at past chunks and no future chunks. On a Core i5 CPU using a single thread, real-time factors (RTFs) of different model configurations range from 0.66 to 0.94, with an end-to-end latency less than 20 ms. 
 
 [![Gradio demo](https://img.shields.io/badge/arxiv-abs-green)](https://arxiv.org/abs/2211.02250) [![Gradio demo](https://img.shields.io/badge/arxiv-pdf-green)](https://arxiv.org/pdf/2211.02250) [![Gradio demo](https://img.shields.io/badge/Gradio-app-blue)](https://huggingface.co/spaces/uwx/waveformer)
+[![App Gallery](https://bit.ly/3xTcccO)](https://01ghh2pnbdet9ex9sdqqsnpxwh.litng-ai-03.litng.ai/view)
 
 <video src="https://user-images.githubusercontent.com/16723254/199796287-e6aa464d-7da4-4941-b356-0668d96d9184.mp4"></video>
 

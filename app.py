@@ -1,4 +1,5 @@
 import lightning as L
+import torch, torchaudio
 import os, wget, json
 import gradio as gr
 from lightning.app.components.serve import ServeGradio
@@ -8,7 +9,7 @@ class ModelDemo(ServeGradio):
     inputs = [gr.Audio(label="Input audio"), gr.CheckboxGroup(choices=TARGETS, label="Input target selection(s)")]
     outputs = gr.Audio(label="Output audio")
     examples = [["data/Sample.wav"]]
-    
+    enable_queue: bool=False
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -35,12 +36,10 @@ class ModelDemo(ServeGradio):
         return model
     
     def predict(self, audio, label_choices):
-        import torch, torchaudio
         # Read input audio
         fs, mixture = audio
         mixture = torchaudio.functional.resample(torch.as_tensor(mixture, dtype=torch.float32), orig_freq=fs, new_freq=44100).numpy()
-        # if fs != 44100:
-        #     raise ValueError("Sampling rate must be 44100, but got %d" % fs)
+
         mixture = torch.from_numpy(
             mixture).unsqueeze(0).unsqueeze(0).to(torch.float) / (2.0 ** 15)
 

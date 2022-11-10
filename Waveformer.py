@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     # Read input audio
     mixture, fs = torchaudio.load(args.input)
-    assert fs == 44100, "Input sampling rate must be 44.1 khz."
+    # assert fs == 44100, "Input sampling rate must be 44.1 khz."
     mixture = torchaudio.functional.resample(mixture, orig_freq=fs, new_freq=44100)
     mixture = mixture.unsqueeze(0)
     print("Loaded input audio from %s" % args.input)

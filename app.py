@@ -15,7 +15,7 @@ from Waveformer import Waveformer as WaveformerModel
 class ModelDemo(ServeGradio):
     inputs = [
         gr.Audio(label="Input audio"),
-        gr.CheckboxGroup(choices=TARGETS, label="Input target selection(s)"),
+        gr.Checkbox(choices=TARGETS, label="Extract target sound"),
     ]
     outputs = gr.Audio(label="Output audio")
     examples = [["data/Sample.wav"]]
@@ -25,8 +25,6 @@ class ModelDemo(ServeGradio):
         super().__init__(cloud_compute=L.CloudCompute("cpu-medium"), **kwargs)
 
     def build_model(self):
-        import torch
-
         if not os.path.exists("default_config.json"):
             config_url = (
                 "https://targetsound.cs.washington.edu/files/default_config.json"
@@ -43,10 +41,12 @@ class ModelDemo(ServeGradio):
         with open("default_config.json") as f:
             params = json.load(f)
         model = WaveformerModel(**params["model_params"])
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+        else:
+            device = torch.device("cpu")
         model.load_state_dict(
-            torch.load("default_ckpt.pt", map_location=torch.device("cpu"))[
-                "model_state_dict"
-            ]
+            torch.load("default_ckpt.pt", map_location=device)["model_state_dict"]
         )
         model.eval()
         return model
@@ -55,9 +55,10 @@ class ModelDemo(ServeGradio):
     def predict(self, audio, label_choices):
         # Read input audio
         fs, mixture = audio
-        mixture = torchaudio.functional.resample(
-            torch.as_tensor(mixture, dtype=torch.float32), orig_freq=fs, new_freq=44100
-        ).numpy()
+        if fs!=44100:
+            mixture = torchaudio.functional.resample(
+                torch.as_tensor(mixture, dtype=torch.float32), orig_freq=fs, new_freq=44100
+            ).numpy()
 
         mixture = torch.from_numpy(mixture).unsqueeze(0).unsqueeze(0).to(
             torch.float
@@ -68,7 +69,7 @@ class ModelDemo(ServeGradio):
         for t in label_choices:
             query[0, TARGETS.index(t)] = 1.0
 
-        with torch.no_grad():
+        with torch.inference_mode():
             output = (2.0**15) * self.model(mixture, query)
 
         return fs, output.squeeze(0).squeeze(0).to(torch.short).numpy()

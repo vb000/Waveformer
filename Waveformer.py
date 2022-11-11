@@ -92,13 +92,13 @@ if __name__ == "__main__":
     model.load_state_dict(
         torch.load("default_ckpt.pt", map_location=device)["model_state_dict"]
     )
-    model.eval()
+    model.to(device).eval()
 
     # Read input audio
     mixture, fs = torchaudio.load(args.input)
     if fs != 44100:
         mixture = torchaudio.functional.resample(mixture, orig_freq=fs, new_freq=44100)
-    mixture = mixture.unsqueeze(0)
+    mixture = mixture.unsqueeze(0).to(device)
     print("Loaded input audio from %s" % args.input)
 
     # Construct the query vector
@@ -110,7 +110,7 @@ if __name__ == "__main__":
             query[0, TARGETS.index(t)] = 1.0
 
     with torch.inference_mode():
-        output = model(mixture, query).squeeze(0)
+        output = model(mixture.to(device), query.to(device)).squeeze(0).cpu()
     if fs != 44100:
         output = torchaudio.functional.resample(output, orig_freq=44100, new_freq=fs)
     print("Inference done. Saving output audio to %s" % args.output)

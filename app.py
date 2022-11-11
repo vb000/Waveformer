@@ -51,8 +51,7 @@ class ModelDemo(ServeGradio):
         model.load_state_dict(
             torch.load("default_ckpt.pt", map_location=device)["model_state_dict"]
         )
-        model.eval()
-        return model
+        return model.to(device).eval()
 
     @torch.inference_mode()
     def predict(self, audio, label_choices):

@@ -15,7 +15,7 @@ from Waveformer import Waveformer as WaveformerModel
 class ModelDemo(ServeGradio):
     inputs = [
         gr.Audio(label="Input audio"),
-        gr.Checkbox(choices=TARGETS, label="Extract target sound"),
+        gr.CheckboxGroup(choices=TARGETS, label="Extract target sound"),
     ]
     outputs = gr.Audio(label="Output audio")
     examples = [["data/Sample.wav"]]
@@ -43,8 +43,11 @@ class ModelDemo(ServeGradio):
         model = WaveformerModel(**params["model_params"])
         if torch.cuda.is_available():
             device = torch.device("cuda")
+        elif torch.backends.mps.is_available():
+            device = torch.device("mps")
         else:
             device = torch.device("cpu")
+        print(f"loading model on {device}")
         model.load_state_dict(
             torch.load("default_ckpt.pt", map_location=device)["model_state_dict"]
         )

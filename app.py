@@ -23,6 +23,7 @@ class ModelDemo(ServeGradio):
 
     def __init__(self, *args, **kwargs):
         super().__init__(cloud_compute=L.CloudCompute("cpu-medium"), **kwargs)
+        self._device = None
 
     def build_model(self):
         if not os.path.exists("default_config.json"):
@@ -45,11 +46,12 @@ class ModelDemo(ServeGradio):
             device = torch.device("cuda")
         else:
             device = torch.device("cpu")
+        self._device = device
         print(f"loading model on {device}")
         model.load_state_dict(
-            torch.load("default_ckpt.pt", map_location=device)["model_state_dict"]
+            torch.load("default_ckpt.pt", map_location=self._device)["model_state_dict"]
         )
-        return model.to(device).eval()
+        return model.to(self._device).eval()
 
     @torch.inference_mode()
     def predict(self, audio, label_choices):
@@ -65,14 +67,14 @@ class ModelDemo(ServeGradio):
         ) / (2.0**15)
 
         # Construct the query vector
-        query = torch.zeros(1, len(TARGETS))
+        query = torch.zeros(1, len(TARGETS)).to(self._device)
         for t in label_choices:
             query[0, TARGETS.index(t)] = 1.0
 
         with torch.inference_mode():
-            output = (2.0**15) * self.model(mixture, query)
+            output = (2.0**15) * self.model(mixture.to(self._device), query)
 
-        return fs, output.squeeze(0).squeeze(0).to(torch.short).numpy()
+        return fs, output.squeeze(0).squeeze(0).to(torch.short).cpu().numpy()
 
 
 app = L.LightningApp(ModelDemo())

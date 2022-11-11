@@ -109,7 +109,7 @@ if __name__ == "__main__":
         for t in args.targets:
             query[0, TARGETS.index(t)] = 1.0
 
-    with torch.no_grad():
+    with torch.inference_mode():
         output = model(mixture, query).squeeze(0)
     if fs != 44100:
         output = torchaudio.functional.resample(output, orig_freq=44100, new_freq=fs)

@@ -8,7 +8,7 @@ This repository provides code for the Waveformer architecture proposed in the pa
 
 ## Non-causal Waveformer
 
-For the purpose of comparing the Waveformer architecture with other non-causal source seperation and target source extraction architectures, we provide a non-causal version of Waveformer architecture, as well, at [src/training/non_causal_dcc_tf.py](src/training/non_causal_dcc_tf.py).
+For the purpose of comparing the Waveformer architecture with other non-causal source separation and target source extraction architectures, we provide a non-causal version of Waveformer architecture, as well, at [src/training/non_causal_dcc_tf.py](src/training/non_causal_dcc_tf.py).
 
 ## Setup
 
@@ -82,3 +82,14 @@ Run evaluation script:
 ### Note
 
 During the sample generation, when the amplitude of mixture sum to greater than 1, peak normalization is used to renormalize the mixtures. This results in a bunch of Scaper warnings during training and evaluation. `-W ignore` flag is used for a clearner output to the console.
+
+## Citation
+
+    @misc{veluri2022realtime,
+      title={Real-Time Target Sound Extraction}, 
+      author={Bandhav Veluri and Justin Chan and Malek Itani and Tuochao Chen and Takuya Yoshioka and Shyamnath Gollakota},
+      year={2022},
+      eprint={2211.02250},
+      archivePrefix={arXiv},
+      primaryClass={cs.SD}
+    }

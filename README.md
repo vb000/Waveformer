@@ -8,7 +8,7 @@ This repository provides code for the Waveformer architecture proposed in the pa
 
 ## Non-causal Waveformer
 
-For the purpose of comparing the Waveformer architecture with other non-causal source separation and target source extraction architectures, we provide a non-causal version of Waveformer architecture, as well, at [src/training/non_causal_dcc_tf.py](src/training/non_causal_dcc_tf.py).
+For the purpose of comparing the Waveformer architecture with other non-causal source separation and target source extraction architectures, we provide a non-causal version of the architecture at [src/training/non_causal_dcc_tf.py](src/training/non_causal_dcc_tf.py).
 
 ## Setup
 

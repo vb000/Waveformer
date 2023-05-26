@@ -1,10 +1,15 @@
-# Real-Time Target Sound Extraction (ICASSP 2023)
+# Waveformer (a DNN for low-latency audio processing)
 
-[![Gradio demo](https://img.shields.io/badge/arxiv-abs-green)](https://arxiv.org/abs/2211.02250) [![Gradio demo](https://img.shields.io/badge/arxiv-pdf-green)](https://arxiv.org/pdf/2211.02250) [![Gradio demo](https://img.shields.io/badge/Gradio-app-blue)](https://huggingface.co/spaces/uwx/waveformer)
+[![Gradio demo](https://img.shields.io/badge/arxiv-abs-green)](https://arxiv.org/abs/2211.02250) [![Gradio demo](https://img.shields.io/badge/ICASSP_2023-pdf-green)](https://arxiv.org/pdf/2211.02250) [![Gradio demo](https://img.shields.io/badge/Gradio-app-blue)](https://huggingface.co/spaces/uwx/waveformer)
 
-This repository provides code for the Waveformer architecture proposed in the paper. Waveformer is a low-latency target sound extraction model implementing streaming inference -- the model process a ~10 ms input audio chunk at each time step, while only looking at past chunks and no future chunks. On a Core i5 CPU using a single thread, real-time factors (RTFs) of different model configurations range from 0.66 to 0.94, with an end-to-end latency less than 20 ms.
+This repository provides code for the Waveformer architecture proposed in the paper, __Real-Time Target Sound Extraction__, presented at ICASSP 2023. Waveformer is a low-latency audio processing model implementing streaming inference -- the model process a ~10 ms input audio chunk at each time step, while only looking at past chunks and no future chunks. On a Core i5 CPU using a single thread, real-time factors (RTFs) of different model configurations range from 0.66 to 0.94, with an end-to-end latency less than 20 ms.
 
 https://github.com/vb000/Waveformer/assets/16723254/b0ac45bf-2718-4beb-9514-19752b400606
+
+## Architecture
+
+![Screenshot 2023-05-26 at 1 20 52 PM](https://github.com/vb000/Waveformer/assets/16723254/749ee264-ff71-4d13-8b7b-ed0c073d7bb7)
+
 
 ## Non-causal Waveformer
 

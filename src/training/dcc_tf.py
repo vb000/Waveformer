@@ -82,7 +82,7 @@ class DilatedCausalConvEncoder(nn.Module):
                             for i in range(num_layers)]
 
         # Compute buffer start indices for each layer
-        self.buf_indices = np.cumsum(self.buf_lengths[:(num_layers - 1)]).tolist()
+        self.buf_indices = [0] + np.cumsum(self.buf_lengths[:(num_layers - 1)]).tolist()
 
         # Dilated causal conv layers aggregate previous context to obtain
         # contexful encoded input.
